@@ -3,9 +3,26 @@ from datetime import date
 import yfinance as yf
 yf.pdr_override()
 import pandas as pd
+import os
 
+'''
+Modified by Jinuk Lee 6/29/2020
+'''
+
+path = '/Users/jinuklee/Documents/Jinuk/Code Work/StockAlert/stockData'
 
 ticker_list=[]
+
+
+#If data directory does not exist, create stockData directory
+def checkDataDir():
+    isdir = os.path.isdir(path)
+    if (isdir == True):
+        return
+    else:
+        os.mkdir(path)
+
+checkDataDir()
 
 #Check if the user-input symbol is a company in NYSE
 def checkComp():
@@ -40,13 +57,13 @@ def getData(company):
     SaveData(data, dataname)
 
 def SaveData(df, data):
-    df.to_csv('./data/'+data+'.csv')
+    df.to_csv('./stockData/'+data+'.csv')
 
 for tik in ticker_list:
     getData(tik)
 
 for i in range(0,len(ticker_list)):
-    df1 = pd.read_csv('./data/'+str(files[i]) + '.csv')
+    df1 = pd.read_csv('./stockData/'+str(files[i]) + '.csv')
     print(df1.head)
 
 
